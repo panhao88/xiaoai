@@ -1,23 +1,126 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
-
+import layout from '../views/layout/layout.vue'
 Vue.use(VueRouter)
 
-  const routes = [
+const routes = [
+  // {
+  //   path: '/',
+  //   name: 'Home',
+  //   component: Home
+  // },
+  {
+    path: '/home',
+    redirect: '/',
+  },
   {
     path: '/',
-    name: 'Home',
-    component: Home
+    component: layout,
+    children: [
+      {
+        path: '',
+        name: 'Home',
+        component: Home,
+        meta: {
+          title: '首页'
+        }
+      },
+      {
+        path:'yifabu',
+        name:'yifabu',
+        component:() => import('../views/yifabu/yifabu.vue'),
+        meta:{
+          title:'已发布'
+        }
+      },
+      {
+        path:'tongji',
+        name:'tongji',
+        component:() => import('../views/tongji/tongji.vue'),
+        meta:{
+          title:'统计'
+        }
+      },
+      {
+        path:'wenzhang',
+        name:'wenzhang',
+        component:() => import('../views/wenzhang/wenzhang.vue'),
+        meta:{
+          title:'发表文章'
+        }
+      },
+      {
+        path:'biaoqianye',
+        name:'biaoqianye',
+        component:() => import('../views/biaoqianye/biaoqianye.vue'),
+        meta:{
+          title:'标签页'
+        }
+      },
+      {
+        path:'excel',
+        name:'excel',
+        component:() => import('../views/excel/excel.vue'),
+        meta:{
+          title:'导出'
+        }
+      },
+      {
+        path:'tupian',
+        name:'tupian',
+        component:() => import('../views/tupian/tupian.vue'),
+        meta:{
+          title:'图片'
+        }
+      },
+      {
+        path:'fenye',
+        name:'fenye',
+        component:() => import('../views/fenye/fenye.vue'),
+        meta:{
+          title:'分页表格'
+        }
+      },
+      {
+        path:'tuchu',
+        name:'tuchu',
+        component:() => import('../views/tuchu/tuchu.vue'),
+        meta:{
+          title:'退出系统'
+        }
+      },
+    ]
   },
   {
     path: '/about',
     name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+    component: () => import('../views/About.vue')
+  },
+  {
+    path: '/denglu',
+    name: 'denglu',
+    component: () => import('../views/denglu/denglu.vue'),
+    meta: {
+      title: '登陆页面'
+    }
+  },
+  {
+    path: '/zhuce',
+    name: 'zhuce',
+    component: () => import('../views/zhuce/zhuce.vue'),
+    meta: {
+      title: "注册页"
+    }
+  },
+  {
+    path: '*',
+    component: () => import('../views/404/404.vue'),
+    meta: {
+      title: '错误页'
+    }
   }
+
 ]
 
 const router = new VueRouter({
@@ -26,4 +129,23 @@ const router = new VueRouter({
   routes
 })
 
+
+// let whitepath =['/denglu','/zhuce']
+router.beforeEach((to, from, next) => {// 网页名字
+  document.title = to.meta.title
+
+
+  let user = JSON.parse(localStorage.getItem('user'))//路由守卫
+// console.log(user);
+  if (to.path === '/denglu' || to.path === '/zhuce') next()
+  else user ? next() : next('/denglu')
+// else if(user!==''){
+// next()
+// }
+})
+
+const originalPush = VueRouter.prototype.push
+VueRouter.prototype.push = function push(location) {
+  return originalPush.call(this, location).catch(err => err)
+}
 export default router
