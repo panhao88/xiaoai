@@ -79,10 +79,9 @@ import axios from 'axios'
            password: this.ruleForm.password,
          }).then(res => {
            if(res.data.code === 200){
+             console.log(res.data);
              this.$message.success('注册成功')  // message消息        success成功
              this.$router.push('/denglu')
-           }else{
-             this.$message.error(res.data.message) //error错误
            }
          }).catch(err => {
            console.log(err)

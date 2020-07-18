@@ -7,7 +7,9 @@ import 'element-ui/lib/theme-chalk/index.css';
 import VCharts from 'v-charts'
 import mavonEditor from 'mavon-editor'
 import 'mavon-editor/dist/css/index.css'
+import JsonExcel from 'vue-json-excel' 
 
+Vue.component('downloadExcel', JsonExcel)
 Vue.use(mavonEditor)
 Vue.use(VCharts)
 Vue.use(ElementUI);

@@ -3,8 +3,8 @@
     <!-- 文章 -->
     <el-card>
       <div style="width:100%; display:flex;  justify-content: center;">
-        <el-button type="danger">查看</el-button>
-        <el-button type="primary">发布</el-button>
+        <el-button type="danger" @click="clickA('/yifabu')">查看</el-button>
+        <el-button type="primary" @click="clickB('/yifabu')">分布</el-button>
       </div>
     </el-card>
     <el-card>
@@ -72,7 +72,7 @@
         <mavon-editor :ishljs="true" v-model="ruleForm.text"></mavon-editor>
         <el-card>
           <div style="display:flex;  justify-content: center;">
-            <el-button type="primary" @click="submitForm('ruleForm')">发布</el-button>
+            <el-button type="primary" @click="submitForm">发布</el-button>
           </div>
         </el-card>
       </el-form>
@@ -88,11 +88,12 @@ export default {
   components: {},
   data() {
     return {
-      lists: {},
       markdownOption: {
         bold: true
       },
+     
       ruleForm: {
+        id:"",
         title: "",
         abstract: "",
         author: "",
@@ -258,13 +259,13 @@ export default {
     };
   },
   methods: {
-    submitForm(ruleForm) {
-      this.$router.push("/yifabu");
+    // 发布文章
+    submitForm() {
       this.$refs.ruleForm.validate(valid => {
         if (valid) {
           axios
             .post("/api/article/create", {
-              title: this.lists.title,
+              title: this.ruleForm.title,
               abstract: this.ruleForm.abstract,
               author: this.ruleForm.author,
               category: this.ruleForm.category,
@@ -274,7 +275,13 @@ export default {
               date: this.ruleForm.date
             })
             .then(res => {
-              console.log(res.data);
+              if(res.data.code === 200){
+                this.$message.success('发布成功')
+                 this.$router.push("/yifabu");
+              }else{
+                this.this.$message.error("登录错误");
+              }
+              // console.log(res.data);
             })
             .catch(err => {
               console.log(err);
@@ -284,9 +291,14 @@ export default {
           return false;
         }
       });
-    }
+    },
+    clickA() {
+      this.$router.push('/yifabu');
+    },
   },
-  mounted() {},
+  mounted() {
+    this.getdasda();
+  },
   watch: {},
   computed: {},
   filters: {}

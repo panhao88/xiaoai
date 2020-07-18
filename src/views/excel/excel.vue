@@ -36,6 +36,20 @@
     </el-pagination>
     </div>
   </el-card>
+  <el-card>
+       <div style="display:flex;">
+      <div class="excel">
+        <download-excel :fetch= "fetchData" :fields="json_fields" name="filename.xls" >
+     <el-button type="primary">导出xis</el-button>
+ </download-excel>
+      </div>
+      <div class="csv">
+        <download-excel :fetch= "fetchData" :fields="json_fields" name="filename.csv" type = "csv" >
+     <el-button type="warning">导出csv</el-button>
+ </download-excel>
+      </div>
+    </div>
+    </el-card>
  </div>
 </template>
 
@@ -52,9 +66,15 @@ import axios from 'axios'
      return {
        add:[],
       //  默认一页多少条
-       pageSize:10,
+       pageSize:13,
       //  默认第几页
-       currentPage:1
+       currentPage:1,
+       json_fields:{
+         商品:"NAME",
+         原价:"ORI_PRICE",
+         现价:"PRESENT_PRICE"
+       }
+       
      }
    },
    methods: {
@@ -71,7 +91,11 @@ import axios from 'axios'
      },
      handleCurrentChange(val){
        this.currentPage = val
-     }
+     },
+     async fetchData(){
+     const  list  = this.add
+      return list;
+    },
    },
    mounted() {
      this.getdasd()
@@ -90,7 +114,7 @@ import axios from 'axios'
 
 <style scoped lang='scss'>
   .table{
-    font-size: 25px;
+    font-size: 18px;
     font-weight: 400;
     font-family:NSimSun  ;
   }

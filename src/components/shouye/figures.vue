@@ -47,6 +47,7 @@ export default {
         .get("/api/radarChat")
         .then(res => {
           this.chartData.columns = Object.keys(res.data.data[0]);
+          // console.log( this.chartData.columns);
           this.chartData.rows = res.data.data;
         })
         .catch(err => {

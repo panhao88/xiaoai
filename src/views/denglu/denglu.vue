@@ -1,6 +1,8 @@
 <template>
   <div class="box1">
     <div class="box2">
+    <!-- 动态绑定model的是表单prop里的数据对象 -->
+    <!-- 动态绑定rules是验证prop表单的规则 -->
       <el-form
         :model="ruleForm"
         :rules="rules"
@@ -87,6 +89,7 @@ export default {
   },
   methods: {
     //    跳转到注册页面
+    // ref是用来给元素注册引用信息的，所应用的信息会放在$refs这个集合中，注意$refs后面要紧跟ref的值
     submitForm() {
       this.$router.push("/zhuce");
     },

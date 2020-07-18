@@ -28,6 +28,7 @@ export default {
         getFata(){
       axios.get("/api/homeChat").then(res =>{
         this.chartData.columns = Object.keys(res.data.data[0]) 
+        // 遍列这个对象数组中的每一项，
         this.chartData.rows = res.data.data
         // console.log(res.data);
       }).catch(err => {
